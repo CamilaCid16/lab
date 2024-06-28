@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package broker;
+
+option go_package = "./";
+
+service Broker {
+  rpc RedirectEngineer (EngineerRequest) returns (FulcrumAddress) {} // Usado por el Ingeniero
+  rpc RedirectCommander (CommanderRequest) returns (FulcrumAddress) {} // Usado por el Comandante
+  rpc ResolveConflict (ConflictRequest) returns (FulcrumAddress) {} // Usado para resolver conflictos
+}
+
+message EngineerRequest { // Mensaje para la solicitud del Ingeniero
+  string command = 1;
+}
+
+message CommanderRequest { // Mensaje para la solicitud del Comandante
+  string command = 1;
+}
+
+message ConflictRequest { // Mensaje para la solicitud de resolución de conflictos
+  string sector = 1;
+  string base = 2;
+  repeated int32 vectorClock = 3;
+}
+
+message FulcrumAddress { // Mensaje de dirección del servidor Fulcrum
+  string address = 1;
+}
+
+
